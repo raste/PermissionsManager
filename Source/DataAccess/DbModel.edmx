@@ -1,0 +1,408 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DbModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
+        <EntityContainer Name="DbModelStoreContainer">
+          <EntitySet Name="Controls" EntityType="DbModel.Store.Controls" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Reports" EntityType="DbModel.Store.Reports" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Roles" EntityType="DbModel.Store.Roles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Roles_Controls" EntityType="DbModel.Store.Roles_Controls" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="User_Roles" EntityType="DbModel.Store.User_Roles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Users" EntityType="DbModel.Store.Users" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Reports_User" Association="DbModel.Store.FK_Reports_User">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Reports" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Roles_ControlsRoles_Control" Association="DbModel.Store.FK_Roles_ControlsRoles_Control">
+            <End Role="Controls" EntitySet="Controls" />
+            <End Role="Roles_Controls" EntitySet="Roles_Controls" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolesControls_Role" Association="DbModel.Store.FK_RolesControls_Role">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Roles_Controls" EntitySet="Roles_Controls" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRoles_Role" Association="DbModel.Store.FK_UserRoles_Role">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="User_Roles" EntitySet="User_Roles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRoles_User" Association="DbModel.Store.FK_UserRoles_User">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="User_Roles" EntitySet="User_Roles" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Controls">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="Reports">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="User" Type="bigint" Nullable="false" />
+          <Property Name="description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="dateAdded" Type="datetime" Nullable="false" />
+          <Property Name="visible" Type="bit" Nullable="false" />
+          <Property Name="solved" Type="bit" Nullable="false" />
+          <Property Name="about" Type="nvarchar" Nullable="false" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="Roles_Controls">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Role" Type="bigint" Nullable="false" />
+          <Property Name="Control" Type="bigint" Nullable="false" />
+          <Property Name="enabled" Type="bit" Nullable="false" />
+          <Property Name="visible" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User_Roles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="User" Type="bigint" Nullable="false" />
+          <Property Name="Role" Type="bigint" Nullable="false" />
+          <Property Name="active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="isAdmin" Type="bit" Nullable="false" />
+          <Property Name="username" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="password" Type="nvarchar" Nullable="false" MaxLength="300" />
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="300" />
+          <Property Name="mainAdmin" Type="bit" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Reports_User">
+          <End Role="Users" Type="DbModel.Store.Users" Multiplicity="1" />
+          <End Role="Reports" Type="DbModel.Store.Reports" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Reports">
+              <PropertyRef Name="User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Roles_ControlsRoles_Control">
+          <End Role="Controls" Type="DbModel.Store.Controls" Multiplicity="1" />
+          <End Role="Roles_Controls" Type="DbModel.Store.Roles_Controls" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Controls">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Roles_Controls">
+              <PropertyRef Name="Control" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolesControls_Role">
+          <End Role="Roles" Type="DbModel.Store.Roles" Multiplicity="1" />
+          <End Role="Roles_Controls" Type="DbModel.Store.Roles_Controls" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Roles_Controls">
+              <PropertyRef Name="Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRoles_Role">
+          <End Role="Roles" Type="DbModel.Store.Roles" Multiplicity="1" />
+          <End Role="User_Roles" Type="DbModel.Store.User_Roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User_Roles">
+              <PropertyRef Name="Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRoles_User">
+          <End Role="Users" Type="DbModel.Store.Users" Multiplicity="1" />
+          <End Role="User_Roles" Type="DbModel.Store.User_Roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User_Roles">
+              <PropertyRef Name="User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DbModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2006/04/edm">
+        <EntityContainer Name="Entities">
+          <EntitySet Name="RightSet" EntityType="DbModel.Right" />
+          <EntitySet Name="RoleSet" EntityType="DbModel.Role" />
+          <EntitySet Name="Role_RightSet" EntityType="DbModel.Role_Right" />
+          <EntitySet Name="User_RoleSet" EntityType="DbModel.User_Role" />
+          <EntitySet Name="UserSet" EntityType="DbModel.User" />
+          <AssociationSet Name="FK_Roles_ControlsRoles_Control" Association="DbModel.FK_Roles_ControlsRoles_Control">
+            <End Role="Controls" EntitySet="RightSet" />
+            <End Role="Roles_Controls" EntitySet="Role_RightSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolesControls_Role" Association="DbModel.FK_RolesControls_Role">
+            <End Role="Roles" EntitySet="RoleSet" />
+            <End Role="Roles_Controls" EntitySet="Role_RightSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRoles_Role" Association="DbModel.FK_UserRoles_Role">
+            <End Role="Roles" EntitySet="RoleSet" />
+            <End Role="User_Roles" EntitySet="User_RoleSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRoles_User" Association="DbModel.FK_UserRoles_User">
+            <End Role="Users" EntitySet="UserSet" />
+            <End Role="User_Roles" EntitySet="User_RoleSet" />
+          </AssociationSet>
+          <EntitySet Name="ReportSet" EntityType="DbModel.Report" />
+          <AssociationSet Name="FK_Reports_User" Association="DbModel.FK_Reports_User">
+            <End Role="User" EntitySet="UserSet" />
+            <End Role="Reports" EntitySet="ReportSet" /></AssociationSet></EntityContainer>
+        <EntityType Name="Right">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Roles_Rights" Relationship="DbModel.FK_Roles_ControlsRoles_Control" FromRole="Controls" ToRole="Roles_Controls" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="300" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Role_Rights" Relationship="DbModel.FK_RolesControls_Role" FromRole="Roles" ToRole="Roles_Controls" />
+          <NavigationProperty Name="User_Roles" Relationship="DbModel.FK_UserRoles_Role" FromRole="Roles" ToRole="User_Roles" />
+        </EntityType>
+        <EntityType Name="Role_Right">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="enabled" Type="Boolean" Nullable="false" />
+          <Property Name="visible" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Right" Relationship="DbModel.FK_Roles_ControlsRoles_Control" FromRole="Roles_Controls" ToRole="Controls" />
+          <NavigationProperty Name="Role" Relationship="DbModel.FK_RolesControls_Role" FromRole="Roles_Controls" ToRole="Roles" />
+        </EntityType>
+        <EntityType Name="User_Role">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Role" Relationship="DbModel.FK_UserRoles_Role" FromRole="User_Roles" ToRole="Roles" />
+          <NavigationProperty Name="User" Relationship="DbModel.FK_UserRoles_User" FromRole="User_Roles" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="300" Unicode="true" FixedLength="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="300" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="User_Roles" Relationship="DbModel.FK_UserRoles_User" FromRole="Users" ToRole="User_Roles" />
+          <Property Name="isAdmin" Type="Boolean" Nullable="false" />
+          <Property Name="mainAdmin" Type="Boolean" Nullable="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Reports" Relationship="DbModel.FK_Reports_User" FromRole="User" ToRole="Reports" /></EntityType>
+        <Association Name="FK_Roles_ControlsRoles_Control">
+          <End Role="Controls" Type="DbModel.Right" Multiplicity="1" />
+          <End Role="Roles_Controls" Type="DbModel.Role_Right" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_RolesControls_Role">
+          <End Role="Roles" Type="DbModel.Role" Multiplicity="1" />
+          <End Role="Roles_Controls" Type="DbModel.Role_Right" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_UserRoles_Role">
+          <End Role="Roles" Type="DbModel.Role" Multiplicity="1" />
+          <End Role="User_Roles" Type="DbModel.User_Role" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_UserRoles_User">
+          <End Role="Users" Type="DbModel.User" Multiplicity="1" />
+          <End Role="User_Roles" Type="DbModel.User_Role" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="ID" /></Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="description" Type="String" Nullable="false" />
+          <Property Name="dateAdded" Type="DateTime" Nullable="false" />
+          <Property Name="visible" Type="Boolean" Nullable="false" />
+          <Property Name="solved" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="DbModel.FK_Reports_User" FromRole="Reports" ToRole="User" />
+          <Property Name="about" Type="String" Nullable="false" /></EntityType>
+        <Association Name="FK_Reports_User">
+          <End Type="DbModel.User" Role="User" Multiplicity="1" />
+          <End Type="DbModel.Report" Role="Reports" Multiplicity="*" /></Association></Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="urn:schemas-microsoft-com:windows:storage:mapping:CS">
+        <EntityContainerMapping StorageEntityContainer="DbModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="RightSet">
+            <EntityTypeMapping TypeName="IsTypeOf(DbModel.Right)">
+              <MappingFragment StoreEntitySet="Controls">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoleSet">
+            <EntityTypeMapping TypeName="IsTypeOf(DbModel.Role)">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Role_RightSet">
+            <EntityTypeMapping TypeName="IsTypeOf(DbModel.Role_Right)">
+              <MappingFragment StoreEntitySet="Roles_Controls">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="enabled" ColumnName="enabled" />
+                <ScalarProperty Name="visible" ColumnName="visible" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User_RoleSet">
+            <EntityTypeMapping TypeName="IsTypeOf(DbModel.User_Role)">
+              <MappingFragment StoreEntitySet="User_Roles">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="active" ColumnName="active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserSet">
+            <EntityTypeMapping TypeName="IsTypeOf(DbModel.User)">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="mainAdmin" ColumnName="mainAdmin" />
+                <ScalarProperty Name="isAdmin" ColumnName="isAdmin" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK_Roles_ControlsRoles_Control" TypeName="DbModel.FK_Roles_ControlsRoles_Control" StoreEntitySet="Roles_Controls">
+            <EndProperty Name="Controls">
+              <ScalarProperty Name="ID" ColumnName="Control" />
+            </EndProperty>
+            <EndProperty Name="Roles_Controls">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_RolesControls_Role" TypeName="DbModel.FK_RolesControls_Role" StoreEntitySet="Roles_Controls">
+            <EndProperty Name="Roles">
+              <ScalarProperty Name="ID" ColumnName="Role" />
+            </EndProperty>
+            <EndProperty Name="Roles_Controls">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_UserRoles_Role" TypeName="DbModel.FK_UserRoles_Role" StoreEntitySet="User_Roles">
+            <EndProperty Name="Roles">
+              <ScalarProperty Name="ID" ColumnName="Role" />
+            </EndProperty>
+            <EndProperty Name="User_Roles">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_UserRoles_User" TypeName="DbModel.FK_UserRoles_User" StoreEntitySet="User_Roles">
+            <EndProperty Name="Users">
+              <ScalarProperty Name="ID" ColumnName="User" />
+            </EndProperty>
+            <EndProperty Name="User_Roles">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="ReportSet">
+            <EntityTypeMapping TypeName="IsTypeOf(DbModel.Report)">
+              <MappingFragment StoreEntitySet="Reports">
+                <ScalarProperty Name="about" ColumnName="about" />
+                <ScalarProperty Name="solved" ColumnName="solved" />
+                <ScalarProperty Name="visible" ColumnName="visible" />
+                <ScalarProperty Name="dateAdded" ColumnName="dateAdded" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="ID" ColumnName="ID" /></MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <AssociationSetMapping Name="FK_Reports_User" TypeName="DbModel.FK_Reports_User" StoreEntitySet="Reports">
+            <EndProperty Name="Reports">
+              <ScalarProperty Name="ID" ColumnName="ID" /></EndProperty>
+            <EndProperty Name="User">
+              <ScalarProperty Name="ID" ColumnName="User" /></EndProperty></AssociationSetMapping></EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2007/06/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram Name="DbModel">
+        <EntityTypeShape EntityType="DbModel.Right" Width="1.5" PointX="0.75" PointY="1.125" Height="1.5956835937500002" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbModel.Role" Width="1.5" PointX="0.75" PointY="3.875" Height="1.7879850260416661" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbModel.Role_Right" Width="1.5" PointX="3" PointY="0.75" Height="1.9802864583333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbModel.User_Role" Width="1.5" PointX="3" PointY="3.875" Height="1.7879850260416661" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbModel.User" Width="1.5" PointX="0.75" PointY="6.625" Height="2.1725878906249996" IsExpanded="true" />
+        <AssociationConnector Association="DbModel.FK_Roles_ControlsRoles_Control" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="2.0666973583984376" />
+          <ConnectorPoint PointX="2.5416666666666665" PointY="2.0666973583984372" />
+          <ConnectorPoint PointX="2.7083333333333335" PointY="2.0666973583984376" />
+          <ConnectorPoint PointX="3" PointY="2.0666973583984376" /></AssociationConnector>
+        <AssociationConnector Association="DbModel.FK_RolesControls_Role" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="4.7689947630208334" />
+          <ConnectorPoint PointX="2.625" PointY="4.7689947630208334" />
+          <ConnectorPoint PointX="2.625" PointY="1.377096679199219" />
+          <ConnectorPoint PointX="3" PointY="1.377096679199219" /></AssociationConnector>
+        <AssociationConnector Association="DbModel.FK_UserRoles_Role" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="4.2594962565104169" />
+          <ConnectorPoint PointX="2.5416666666666665" PointY="4.259496256510416" />
+          <ConnectorPoint PointX="2.7083333333333335" PointY="4.2594962565104169" />
+          <ConnectorPoint PointX="3" PointY="4.2594962565104169" /></AssociationConnector>
+        <AssociationConnector Association="DbModel.FK_UserRoles_User" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="7.99974609375" />
+          <ConnectorPoint PointX="2.625" PointY="7.99974609375" />
+          <ConnectorPoint PointX="2.625" PointY="5.2159882695312492" />
+          <ConnectorPoint PointX="3" PointY="5.2159882695312492" /></AssociationConnector>
+        <EntityTypeShape EntityType="DbModel.Report" Width="1.5" PointX="3" PointY="6.875" Height="2.1725878906249996" />
+        <AssociationConnector Association="DbModel.FK_Reports_User" >
+          <ConnectorPoint PointX="2.25" PointY="7.374873046875" />
+          <ConnectorPoint PointX="2.5416666666666665" PointY="7.374873046874999" />
+          <ConnectorPoint PointX="2.7083333333333335" PointY="7.374873046875" />
+          <ConnectorPoint PointX="3" PointY="7.374873046875" /></AssociationConnector></Diagram></edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
