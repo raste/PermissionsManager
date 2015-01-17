@@ -1,6 +1,6 @@
    Copyright 2015 Georgi Kolev
 
-       https://github.com/raste/FlashSouthParkIntro
+       https://github.com/raste/PermissionsManager
 
    Licensed under the Apache License, Version 2.0;
    you may not use this file except in compliance with the License.
