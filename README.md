@@ -2,6 +2,8 @@
 
 ### About
 
+June 2011
+
 Prototype of application which manages user roles. 
 
 It was given as recruitment task with the following objectives:
